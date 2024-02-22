@@ -16,6 +16,7 @@ export const initiateApp = async (app, express) => {
   app.use("/category", routers.categoryRouter);
   app.use("/subCategory", routers.subCategory);
   app.use("/brand", routers.brandRouter);
+  app.use("/product", routers.productRouter);
 
   app.use(globalResponse, rollbackUploadedFiles, rollbackSavedDocuments);
 

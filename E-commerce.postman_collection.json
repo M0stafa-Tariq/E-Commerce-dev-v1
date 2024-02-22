@@ -167,7 +167,7 @@
 						"header": [
 							{
 								"key": "accesstoken",
-								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVjZWIxYjBiYzJiZTVhOThlNDcxODM0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODA5MjIxNywiZXhwIjoxNzA4MTc4NjE3fQ.5VqNilnXUsUEjIKFaqBSrx8loM0UglgullNagSbVJ94",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODI5NDExNSwiZXhwIjoxNzA4MzgwNTE1fQ.G8yjsUUI-MaJCts_ciHbqD7EH9IYovbccvgdeHjlq5Q",
 								"type": "text"
 							}
 						],
@@ -247,7 +247,7 @@
 					"response": []
 				},
 				{
-					"name": "get all categories",
+					"name": "get all categories with sucCategories with brands",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -290,6 +290,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get all categories with sucCategories with brands with products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/category/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"category",
+								"all"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -303,7 +323,7 @@
 						"header": [
 							{
 								"key": "accesstoken",
-								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODE5NTQyMCwiZXhwIjoxNzA4MjgxODIwfQ.yn133enJ39pjLQxTn-MMhAv7mwCJcqirIoClWWTfr_c",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODMxODIxMCwiZXhwIjoxNzA4NDA0NjEwfQ.UvjOJwraW18zpLELo2ktI_7tj4JO9Luewh3NUYaeYd8",
 								"type": "text"
 							}
 						],
@@ -312,18 +332,18 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "mobiles",
+									"value": "mobiles2",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (8).png"
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (9).png"
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:3000/subCategory/65d01c20a175a0e332ac0eaa",
+							"raw": "http://localhost:3000/subCategory/65cf81a1bf064f604a051ad0",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -331,7 +351,7 @@
 							"port": "3000",
 							"path": [
 								"subCategory",
-								"65d01c20a175a0e332ac0eaa"
+								"65cf81a1bf064f604a051ad0"
 							]
 						}
 					},
@@ -451,7 +471,7 @@
 						"header": [
 							{
 								"key": "accesstoken",
-								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODE5NTQyMCwiZXhwIjoxNzA4MjgxODIwfQ.yn133enJ39pjLQxTn-MMhAv7mwCJcqirIoClWWTfr_c",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODU5MzA1NCwiZXhwIjoxNzA4Njc5NDU0fQ.C3KcXJRJwh2n5uy8yiWcz-RsOWO-hAeG0WSnyUyfO5Q",
 								"type": "text"
 							}
 						],
@@ -460,13 +480,13 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "samsung2",
+									"value": "lenovo",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (2).png"
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (9).png"
 								}
 							]
 						},
@@ -591,6 +611,327 @@
 							"path": [
 								"brand",
 								"65d10049d17691a1cf9ff3fe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "add product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accesstoken",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODU5MzA1NCwiZXhwIjoxNzA4Njc5NDU0fQ.C3KcXJRJwh2n5uy8yiWcz-RsOWO-hAeG0WSnyUyfO5Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Lenovo labtob",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "descreption samsung",
+									"type": "text"
+								},
+								{
+									"key": "basePrice",
+									"value": "60000",
+									"type": "text"
+								},
+								{
+									"key": "discount",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "{\"colors\":[\"black\" , \"gold\"] , \"sizes\":[256,512]}",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (7).png"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (9).png",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (7).png",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/product?categoryId=65d01c20a175a0e332ac0eaa&subCategoryId=65d10027d17691a1cf9ff3f5&brandId=65d72ef4b45a4e5b061a2464",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "65d01c20a175a0e332ac0eaa"
+								},
+								{
+									"key": "subCategoryId",
+									"value": "65d10027d17691a1cf9ff3f5"
+								},
+								{
+									"key": "brandId",
+									"value": "65d72ef4b45a4e5b061a2464"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accesstoken",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODMwMDc1OSwiZXhwIjoxNzA4Mzg3MTU5fQ.mko09u8uOY25kF7k6WdIEUKgUP3Bkp3TVJMGqyeiV8U",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "iphon 6s update",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "desc",
+									"value": "descreption iphon6s update",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "basePrice",
+									"value": "5500",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "discount",
+									"value": "0",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "66",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "specs",
+									"value": "{\"colors\":[\"black\",\"red\"] , \"sizes\":[64,128,256,512]}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Mustafa/Pictures/Screenshots/Screenshot (8).png"
+								},
+								{
+									"key": "oldPublicId",
+									"value": "E-Commerce-project/Categories/hgdf/SubCategories/142h/Brands/44ag/Products/44dg/jrtecbmg3ynssnsqlipc",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/product/65d2a2dbbb7c18f854121c56",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"65d2a2dbbb7c18f854121c56"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accesstoken",
+								"value": "accesstoken_eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1vc3RhZmFib2RhMzA1QGdtYWlsLmNvbSIsImlkIjoiNjVkMGVjMDE2OTg0YTAwYThkMjAxNDk0IiwibG9nZ2VkSW4iOnRydWUsImlhdCI6MTcwODMxNjgzOSwiZXhwIjoxNzA4NDAzMjM5fQ.i9lrWZ_dJloUi3ROmi4fb5rM7aeZQH0ge28PoAKJRtU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/product/65d2a06122365ee33957572b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"65d2a06122365ee33957572b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get product by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product/search/65d29ae09c2022632746f81b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"search",
+								"65d29ae09c2022632746f81b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all products paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product?page=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product/search?title=sam",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"search"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "sam"
+								},
+								{
+									"key": "desc",
+									"value": "i",
+									"disabled": true
+								},
+								{
+									"key": "stock",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "discount",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "priceFrom",
+									"value": "50000",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all products for two brands",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/product/brand?brandId1=65d10054d17691a1cf9ff404&brandId2=65d72ef4b45a4e5b061a2464",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"product",
+								"brand"
+							],
+							"query": [
+								{
+									"key": "brandId1",
+									"value": "65d10054d17691a1cf9ff404"
+								},
+								{
+									"key": "brandId2",
+									"value": "65d72ef4b45a4e5b061a2464"
+								}
 							]
 						}
 					},

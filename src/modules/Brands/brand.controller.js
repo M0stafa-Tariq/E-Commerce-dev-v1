@@ -4,6 +4,7 @@ import subCategory from "../../../DB/Models/sub-category.model.js";
 import Brand from "../../../DB/Models/brand.model.js";
 import cloudinaryConnection from "../../utils/cloudinary.js";
 import generateUniqueString from "../../utils/generate-Unique-String.js";
+import Product from "../../../DB/Models/product.model.js";
 
 //============================== add brand ==============================//
 export const addBrand = async (req, res, next) => {
@@ -60,7 +61,7 @@ export const addBrand = async (req, res, next) => {
 
   // 8- add brand in DB
   const newBrand = await Brand.create(brandObject);
-  req.savedDocuments = { model: Brand, _id: newBrand._id };
+  req.savedDocument = { model: Brand, _id: newBrand._id };
   if (!newBrand)
     return next(new Error("Brand creation failed!", { cause: 400 }));
 
@@ -167,8 +168,14 @@ export const deleteBrand = async (req, res, next) => {
     { path: "categoryId", select: "folderId" },
     { path: "subCategoryId", select: "folderId" },
   ]);
-  if (!brand) return next({ cause: 404, message: "brand not found" });
-  // 3- delete the brand folder from cloudinary
+  if (!brand) return next({ cause: 404, message: "brand not found!" });
+
+  // 3- delete the related products
+  const product = await Product.deleteMany({ brandId });
+  if (product.deletedCount <= 0) {
+    console.log("There is no related prodcuts");
+  }
+  // 4- delete the brand folder from cloudinary
   await cloudinaryConnection().api.delete_resources_by_prefix(
     `${process.env.MAIN_FOLDER}/Categories/${brand.categoryId.folderId}/SubCategories/${brand.subCategoryId.folderId}/Brands/${brand.folderId}`
   );
@@ -178,5 +185,5 @@ export const deleteBrand = async (req, res, next) => {
   // 5- send response
   res
     .status(200)
-    .json({ success: true, message: "Brand deleted successfully" });
+    .json({ success: true, message: "product deleted successfully!" });
 };

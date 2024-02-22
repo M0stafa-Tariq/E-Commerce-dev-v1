@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 const subCategorySchema = new Schema(
   {
@@ -31,4 +31,4 @@ subCategorySchema.virtual("brands", {
   foreignField: "subCategoryId",
 });
 
-export default model("SubCategory", subCategorySchema);
+export default mongoose.models.SubCategory || model("SubCategory", subCategorySchema);

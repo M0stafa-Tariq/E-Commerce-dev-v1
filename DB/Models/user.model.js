@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import { systemRoles } from "../../src/utils/system-roles.js";
 
 const userSchema = new Schema(
@@ -57,4 +57,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-export default model("User", userSchema);
+export default mongoose.models.User || model("User", userSchema);

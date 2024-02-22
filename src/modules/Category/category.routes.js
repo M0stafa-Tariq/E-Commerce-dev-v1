@@ -20,12 +20,20 @@ router.put(
   asyncHandler(categoryController.updateCategory)
 );
 
-router.get("/", asyncHandler(categoryController.getAllCategories));
+router.get(
+  "/",
+  asyncHandler(categoryController.getAllCategoriesWithSubCategoriesWithBrands)
+);
 
 router.delete(
   "/:categoryId",
   auth(endPointsRoles.ADD_CATEGORY),
   asyncHandler(categoryController.deleteCategory)
+);
+
+router.get(
+  "/all",
+  asyncHandler(categoryController.getAllCategoriesWithSubCategoriesWithBrandsWithProducts)
 );
 
 export default router;

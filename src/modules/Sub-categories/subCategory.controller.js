@@ -4,6 +4,7 @@ import generateUniqueString from "../../utils/generate-Unique-String.js";
 import cloudinaryConnection from "../../utils/cloudinary.js";
 import slugify from "slugify";
 import Brand from "../../../DB/Models/brand.model.js";
+import Product from "../../../DB/Models/product.model.js";
 
 //============================== add SubCategory ==============================//
 export const addSubCategory = async (req, res, next) => {
@@ -35,7 +36,6 @@ export const addSubCategory = async (req, res, next) => {
       folder: `${process.env.MAIN_FOLDER}/Categories/${category.folderId}/SubCategories/${folderId}`,
     });
   req.folder = `${process.env.MAIN_FOLDER}/Categories/${category.folderId}/SubCategories/${folderId}`;
-
   // 6- generate the subCategory object
   const subCategory = {
     name,
@@ -47,7 +47,7 @@ export const addSubCategory = async (req, res, next) => {
   };
   // 7- create the subCategory
   const subCategoryCreated = await SubCategory.create(subCategory);
-  req.savedDocuments = { model: SubCategory, _id: subCategoryCreated._id };
+  req.savedDocument = { model: SubCategory, _id: subCategoryCreated._id };
   if (!subCategoryCreated)
     return next(new Error("SubCategory Creation failed!", { cause: 400 }));
 
@@ -164,19 +164,24 @@ export const deleteSubCategory = async (req, res, next) => {
     subCategoryId
   ).populate([{ path: "categoryId", select: "folderId" }]);
   if (!subCategory) return next({ cause: 404, message: "Category not found" });
-  //3- delete the related brands
+  // 3- delete the related brands
   const brands = await Brand.deleteMany({ subCategoryId });
   if (brands.deletedCount <= 0) {
     console.log("There is no related brands");
   }
-  // 4- delete the subCategory folder from cloudinary
+  // 4- delete the related products
+  const product = await Product.deleteMany({ subCategoryId });
+  if (product.deletedCount <= 0) {
+    console.log("There is no related prodcuts");
+  }
+  // 5- delete the subCategory folder from cloudinary
   await cloudinaryConnection().api.delete_resources_by_prefix(
     `${process.env.MAIN_FOLDER}/Categories/${subCategory.categoryId.folderId}/SubCategories/${subCategory.folderId}`
   );
   await cloudinaryConnection().api.delete_folder(
     `${process.env.MAIN_FOLDER}/Categories/${subCategory.categoryId.folderId}/SubCategories/${subCategory.folderId}`
   );
-  // 5- send response
+  // 6- send response
   res
     .status(200)
     .json({ success: true, message: "Category deleted successfully" });

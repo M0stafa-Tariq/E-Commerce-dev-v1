@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../../../DB/Models/user.model.js";
-import sendEmailService from "../services/send-email.service.js";
+import sendEmailService from "../../services/send-email.service.js";
 
 // ========================================= SignUp API ================================//
 
@@ -58,7 +58,7 @@ export const signUp = async (req, res, next) => {
     phoneNumbers,
     addresses,
   });
-
+  req.savedDoument = { model: User, _id: newUser._id };
   if (!newUser)
     return next(new Error("User registration failed!", { cause: 400 }));
 
@@ -70,11 +70,6 @@ export const signUp = async (req, res, next) => {
     data: newUser,
   });
 };
-
-/**
- * Twilio => paid service
- * nodemailer => free service
- */
 
 // ========================================= Verify Email API ================================//
 /**

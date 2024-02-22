@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import User from "../../../DB/Models/user.model.js";
-import sendEmailService from "../services/send-email.service.js";
+import sendEmailService from "../../services/send-email.service.js";
 import { systemRoles } from "../../utils/system-roles.js";
 
 //============================================ update user ============================================//
