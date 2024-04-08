@@ -3,10 +3,10 @@ import slugify from "slugify";
 import Category from "../../../DB/Models/category.model.js";
 import SubCategory from "../../../DB/Models/sub-category.model.js";
 import Brand from "../../../DB/Models/brand.model.js";
-import cloudinaryConnection from "../../utils/cloudinary.js";
-import generateUniqueString from "../../utils/generate-Unique-String.js";
 import Product from "../../../DB/Models/product.model.js";
-import { populate } from "dotenv";
+import Review from "../../../DB/Models/review.model.js";
+import cloudinaryConnection from "../../utils/cloudinary.js";
+import generateUniqueString from "../../utils/generate-unique-string.js";
 
 //================================ add category ================================//
 
@@ -165,12 +165,16 @@ export const deleteCategory = async (req, res, next) => {
   }
 
   // 4- delete the related products
-  const product = await Product.deleteMany({ categoryId });
-  if (product.deletedCount <= 0) {
+  const products = await Product.deleteMany({ categoryId });
+  if (products.deletedCount <= 0) {
     console.log("There is no related prodcuts");
   }
-
-  // 5- delete the category folder from cloudinary
+  // 5- delete the related reviews
+  const reviews = await Review.deleteMany({ categoryId });
+  if (reviews.deletedCount <= 0) {
+    console.log("There is no related reviews");
+  }
+  // 6- delete the category folder from cloudinary
   await cloudinaryConnection().api.delete_resources_by_prefix(
     `${process.env.MAIN_FOLDER}/Categories/${catgory.folderId}`
   );
@@ -192,7 +196,7 @@ export const getAllCategoriesWithSubCategoriesWithBrandsWithProducts = async (
   const categories = await Category.find().populate([
     {
       path: "subCategories",
-      populate: [{ path: "brands",populate:[{ path: "products" }] }],
+      populate: [{ path: "brands", populate: [{ path: "products" }] }],
     },
   ]);
 
@@ -204,5 +208,51 @@ export const getAllCategoriesWithSubCategoriesWithBrandsWithProducts = async (
     success: true,
     message: "Categories fetched successfully",
     data: categories,
+  });
+};
+
+//============================== Get all subCategories for specific category ==============================//
+export const getAllSubCategoryForSpecificCategory = async (req, res, next) => {
+  const { categoryId } = req.params;
+  //get all sub category for that category
+  const subCategories = await SubCategory.find({ categoryId });
+  if (!subCategories.length)
+    return next(new Error("There are no subCategories yet!", { cause: 400 }));
+  //send response
+  res.status(200).json({
+    success: true,
+    message: "SubCategories fetched successfully",
+    data: subCategories,
+  });
+};
+
+//============================== Get category by id ==============================//
+export const getCategoryById = async (req, res, next) => {
+  const { categoryId } = req.params;
+  //get all sub category for that category
+  const category = await Category.findById(categoryId);
+  if (!category) return next(new Error("Category not found!", { cause: 400 }));
+  //send response
+  res.status(200).json({
+    success: true,
+    data: category,
+  });
+};
+
+//==============================  Get all brands for specific Category ==============================//
+export const getAllBrandsForSpecificCategory = async (req, res, next) => {
+  const { categoryId } = req.params;
+  //get all sub category for that category
+  const brands = await Brand.find({ categoryId });
+  if (!brands.length)
+    return next(
+      new Error("There are no brands yet for this category!", {
+        cause: 400,
+      })
+    );
+  //send response
+  res.status(200).json({
+    success: true,
+    data: brands,
   });
 };

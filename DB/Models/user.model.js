@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { systemRoles } from "../../src/utils/system-roles.js";
+import { systemRoles } from "../../src/utils/system-enums.js";
 
 const userSchema = new Schema(
   {
@@ -37,7 +37,7 @@ const userSchema = new Schema(
     ],
     role: {
       type: String,
-      enum: [systemRoles.USER, systemRoles.ADMIN, systemRoles.SUPER_ADMIN],
+      enum: Object.values(systemRoles),
       default: systemRoles.USER,
     },
     isEmailVerified: {
@@ -53,6 +53,12 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    token: String,
+    forgetCode: String,
   },
   { timestamps: true }
 );

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import User from "../../../DB/Models/user.model.js";
 import sendEmailService from "../../services/send-email.service.js";
-import { systemRoles } from "../../utils/system-roles.js";
+import { systemRoles } from "../../utils/system-enums.js";
 
 //============================================ update user ============================================//
 export const updateUser = async (req, res, next) => {
@@ -115,11 +115,45 @@ export const deleteUser = async (req, res, next) => {
 };
 
 //============================================ get user profile data ============================================//
-export const getUser = async (req, res, next) => {
+export const getProfileData = async (req, res, next) => {
   // 1- destructuring _id from the request authUser
   const { _id } = req.authUser;
   //serch user
   const user = await User.findById(_id);
   //send response
   res.status(200).json({ success: true, data: user });
+};
+
+//============================================ soft delete user ============================================//
+export const softDeleteUser = async (req, res, next) => {
+  // 1- destructuring role & _id from the request authUser
+  const { role, _id } = req.authUser;
+  // 2- destructuring user id from query
+  const { userId } = req.query;
+  // 3- check role
+  // 3.1-check if role is user or admin
+  if (role == systemRoles.USER || role == systemRoles.ADMIN) {
+    const deletedUser = await User.findByIdAndUpdate(_id, { isDeleted: true });
+    if (!deletedUser)
+      return next(
+        new Error("Deleted account failed , try again!", { cause: 400 })
+      );
+  }
+  // 3.2- check if role is superAdmin
+  if (role == systemRoles.SUPER_ADMIN) {
+    const deletedUser = await User.findByIdAndUpdate(userId, {
+      isDeleted: true,
+    });
+    if (!deletedUser)
+      return next(
+        new Error(
+          "Deleted account failed ,please enter userId you wanna delete!",
+          { cause: 400 }
+        )
+      );
+  }
+  // 4- send respnse
+  res
+    .status(200)
+    .json({ success: true, message: "User deleted successfully!" });
 };

@@ -2,9 +2,10 @@ import slugify from "slugify";
 
 import subCategory from "../../../DB/Models/sub-category.model.js";
 import Brand from "../../../DB/Models/brand.model.js";
-import cloudinaryConnection from "../../utils/cloudinary.js";
-import generateUniqueString from "../../utils/generate-Unique-String.js";
 import Product from "../../../DB/Models/product.model.js";
+import Review from "../../../DB/Models/review.model.js";
+import cloudinaryConnection from "../../utils/cloudinary.js";
+import generateUniqueString from "../../utils/generate-unique-string.js";
 
 //============================== add brand ==============================//
 export const addBrand = async (req, res, next) => {
@@ -175,14 +176,19 @@ export const deleteBrand = async (req, res, next) => {
   if (product.deletedCount <= 0) {
     console.log("There is no related prodcuts");
   }
-  // 4- delete the brand folder from cloudinary
+  // 4- delete the related reviews
+  const reviews = await Review.deleteMany({ brandId });
+  if (reviews.deletedCount <= 0) {
+    console.log("There is no related reviews");
+  }
+  // 5- delete the brand folder from cloudinary
   await cloudinaryConnection().api.delete_resources_by_prefix(
     `${process.env.MAIN_FOLDER}/Categories/${brand.categoryId.folderId}/SubCategories/${brand.subCategoryId.folderId}/Brands/${brand.folderId}`
   );
   await cloudinaryConnection().api.delete_folder(
     `${process.env.MAIN_FOLDER}/Categories/${brand.categoryId.folderId}/SubCategories/${brand.subCategoryId.folderId}/Brands/${brand.folderId}`
   );
-  // 5- send response
+  // 6- send response
   res
     .status(200)
     .json({ success: true, message: "product deleted successfully!" });

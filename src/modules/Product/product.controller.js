@@ -2,11 +2,13 @@ import slugify from "slugify";
 
 import Brand from "../../../DB/Models/brand.model.js";
 import Product from "../../../DB/Models/product.model.js";
-import { systemRoles } from "../../utils/system-roles.js";
+import Review from "../../../DB/Models/review.model.js";
 import cloudinaryConnection from "../../utils/cloudinary.js";
-import generateUniqueString from "../../utils/generate-Unique-String.js";
+import generateUniqueString from "../../utils/generate-unique-string.js";
+import { systemRoles } from "../../utils/system-enums.js";
 import { APIFeatures } from "../../utils/api-features.js";
 
+//============================================ Add product ============================================//
 /**
  *
  * @param {*} req body: {title, desc, basePrice, discount, stock, specs}  authUser
@@ -16,7 +18,6 @@ import { APIFeatures } from "../../utils/api-features.js";
  * @description add a product to the database
  */
 
-//============================================ Add product ============================================//
 export const addProduct = async (req, res, next) => {
   // data from the request body
   const { title, desc, basePrice, discount, stock, specs } = req.body;
@@ -101,6 +102,7 @@ export const addProduct = async (req, res, next) => {
   });
 };
 
+//========================================= Update product =========================================//
 /**
  *
  * @param {*} req body: {title, desc, basePrice, discount, stock, specs}
@@ -110,7 +112,6 @@ export const addProduct = async (req, res, next) => {
  * @description update a product in the database
  */
 
-//========================================= Update product =========================================//
 export const updateProduct = async (req, res, next) => {
   // data from the request body
   const { title, desc, specs, stock, basePrice, discount, oldPublicId } =
@@ -192,6 +193,11 @@ export const deleteProduct = async (req, res, next) => {
   // delete product
   const prodcuct = await Product.findByIdAndDelete(productId);
   if (!prodcuct) return next({ cause: 404, message: "product not found!" });
+  //  delete the related reviews
+  const reviews = await Review.deleteMany({ productId });
+  if (reviews.deletedCount <= 0) {
+    console.log("There is no related reviews");
+  }
   // delete the brand folder from cloudinary
   const folderPath =
     prodcuct.Images[0].public_id.split(`${prodcuct.folderId}`)[0] +
@@ -222,7 +228,7 @@ export const getProductById = async (req, res, next) => {
 //========================================= Get all products paginated =========================================//
 export const getAllProductsPaginated = async (req, res, next) => {
   // destructuring the request query
-  const { page, size, sort } = req.query;
+  const { page, size } = req.query;
   //intiate new instance from APIFeatures
   const features = new APIFeatures(req.query, Product.find());
   //use pagination method from features
@@ -259,14 +265,14 @@ export const searchProduct = async (req, res, next) => {
 //========================================= return all products for 2 specific brands =========================================//
 export const allProductForTwoBrands = async (req, res, next) => {
   // destructuring the request query
-  const {brandId1,brandId2} = req.query;
-  const brandsArray = [brandId1,brandId2]
-  console.log(brandsArray);
-  const products = await Product.find({ brandId: { $in: brandsArray } });
+  const { brandId1, brandId2 } = req.query;
+  const products = await Product.find({
+    brandId: { $in: [brandId1, brandId2] },
+  });
   if (!products.length)
-  return next(
-    new Error("There are no results match with your search!", { cause: 404 })
-  );
+    return next(
+      new Error("There is no result match with your search!", { cause: 404 })
+    );
   res.status(200).json({
     success: true,
     data: products,

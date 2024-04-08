@@ -1,10 +1,12 @@
-import SubCategory from "../../../DB/Models/sub-category.model.js";
-import Category from "../../../DB/Models/category.model.js";
-import generateUniqueString from "../../utils/generate-Unique-String.js";
-import cloudinaryConnection from "../../utils/cloudinary.js";
 import slugify from "slugify";
+
+import Category from "../../../DB/Models/category.model.js";
+import SubCategory from "../../../DB/Models/sub-category.model.js";
 import Brand from "../../../DB/Models/brand.model.js";
 import Product from "../../../DB/Models/product.model.js";
+import Review from "../../../DB/Models/review.model.js";
+import cloudinaryConnection from "../../utils/cloudinary.js";
+import generateUniqueString from "../../utils/generate-unique-string.js";
 
 //============================== add SubCategory ==============================//
 export const addSubCategory = async (req, res, next) => {
@@ -96,21 +98,7 @@ export const updateSubCategory = async (req, res, next) => {
     subCategory.slug = slugify(name, "-");
   }
 
-  // 6- check if the use want to update the categoryId field
-  // if (categoryId) {
-  //   //check if category exists
-  //   const category = await Category.findById(categoryId);
-  //   if (!category)
-  //     return next(
-  //       new Error("You are trying to assign a category that does not exist! ", {
-  //         cause: 404,
-  //       })
-  //     );
-  //   //update the categoryId
-  //   subCategory.categoryId = categoryId;
-  // }
-
-  // 7- check if the user want to update the image
+  // 6- check if the user want to update the image
   if (oldPublicId) {
     if (!req.file) return next(new Error("Image is required!", { cause: 400 }));
 
@@ -126,13 +114,13 @@ export const updateSubCategory = async (req, res, next) => {
     subCategory.Image.secure_url = secure_url;
   }
 
-  // 8- set value for the updatedBy field
+  // 7- set value for the updatedBy field
   subCategory.updatedBy = _id;
 
-  // 9- save the alternatives in DB
+  // 8- save the alternatives in DB
   await subCategory.save();
 
-  // 10- send response
+  // 9- send response
   res.status(200).json({
     success: true,
     message: "SubCategory updated successfully!",
@@ -174,15 +162,52 @@ export const deleteSubCategory = async (req, res, next) => {
   if (product.deletedCount <= 0) {
     console.log("There is no related prodcuts");
   }
-  // 5- delete the subCategory folder from cloudinary
+  // 5- delete the related reviews
+  const reviews = await Review.deleteMany({ subCategoryId });
+  if (reviews.deletedCount <= 0) {
+    console.log("There is no related reviews");
+  }
+  // 6- delete the subCategory folder from cloudinary
   await cloudinaryConnection().api.delete_resources_by_prefix(
     `${process.env.MAIN_FOLDER}/Categories/${subCategory.categoryId.folderId}/SubCategories/${subCategory.folderId}`
   );
   await cloudinaryConnection().api.delete_folder(
     `${process.env.MAIN_FOLDER}/Categories/${subCategory.categoryId.folderId}/SubCategories/${subCategory.folderId}`
   );
-  // 6- send response
+  // 7- send response
   res
     .status(200)
     .json({ success: true, message: "Category deleted successfully" });
+};
+
+//============================== Get subCategory by id ==============================//
+export const getSubCategoryById = async (req, res, next) => {
+  const { subCategoryId } = req.params;
+  //get all sub category for that category
+  const subCategory = await SubCategory.findById(subCategoryId);
+  if (!subCategory)
+    return next(new Error("Sub category not found!", { cause: 400 }));
+  //send response
+  res.status(200).json({
+    success: true,
+    data: subCategory,
+  });
+};
+
+//==============================  Get all brands for specific subCategory ==============================//
+export const getAllBrandsForSpecificSubCategory = async (req, res, next) => {
+  const { subCategoryId } = req.params;
+  //get all sub category for that category
+const brands = await Brand.find({subCategoryId});
+  if (!brands.length)
+    return next(
+      new Error("There are no brands yet for this sub category!", {
+        cause: 400,
+      })
+    );
+  //send response
+  res.status(200).json({
+    success: true,
+    data: brands,
+  });
 };

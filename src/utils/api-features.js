@@ -52,8 +52,6 @@ export class APIFeatures {
       .replace(/asc/g, 1)
       .replace(/ /g, ":");
     const [key, value] = formula.split(":");
-    console.log({ formula });
-    console.log({ key, value });
     this.mogooseQuery = this.mogooseQuery.sort({ [key]: +value });
     return this;
   }
@@ -87,7 +85,6 @@ export class APIFeatures {
       /gt|gte|lt|lte|in|nin|eq|ne|regex/g,
       (operator) => `$${operator}`
     );
-    console.log(JSON.parse(queryFilter));
     this.mogooseQuery = this.mongooseQuery.find(JSON.parse(queryFilter));
     return this;
   }
