@@ -1,7 +1,7 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import { systemRoles } from "../../src/utils/system-enums.js";
 
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -63,4 +63,4 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.User || model("User", userSchema);
+export default mongoose.models.User || mongoose.model("User", userSchema);
